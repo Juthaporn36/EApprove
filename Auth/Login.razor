@@ -1,0 +1,46 @@
+﻿@page "/login"
+@inject NavigationManager navigationManager
+@inject AuthenticationStateProvider authStateProvider
+@inject IConfiguration config
+@using System.Security.Claims;
+@error
+@code{
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Jwt { get; set; } = "";
+
+    //EmployeeAuthen loginRequest { get; set; } = new EmployeeAuthen(){logintype="EmployeeId"};
+    string error { get; set; } = "";
+    protected override async Task OnParametersSetAsync()
+    {
+        if (string.IsNullOrWhiteSpace(Jwt)){
+            navigationManager.NavigateTo($"{config["AppAuthen:AuthenUrl"]}?AppId={config["AppAuthen:AppId"]}&rUrl={config["AppAuthen:ReturnUrl"]}");
+        }else{
+            var customStateProvider = (CustomStateProvider)authStateProvider;
+            var sResult = customStateProvider.Login(Jwt).Result;
+            if(sResult==0){
+                error = "Login Fail";return;
+            }else if(sResult==1){
+                AuthenticationState authState = await customStateProvider.GetAuthenticationStateAsync();
+                if (authState == null || authState.User == null || authState.User.Identity == null) return;
+                ClaimsPrincipal user = authState.User;
+                if (user.Identity.IsAuthenticated)
+                {
+                    // Since the user is a ClaimsPrincipal, you can also enumerate claims,
+                    // evaluate membership in roles, etc.
+                    //Console.WriteLine($"Hello, {user.Identity.Name}!");
+                }
+                else
+                {
+                    //Console.WriteLine("You're not logged in.");
+                }
+                //
+            }
+            
+        }        
+    }
+    protected override void OnAfterRender(bool firstRender)
+    {
+        navigationManager.NavigateTo("/");
+    }
+}

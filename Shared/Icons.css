@@ -1,0 +1,24 @@
+.menu-icon {
+    width: 1rem;
+    height: 1rem;
+    min-width: 1rem;
+    min-height: 1rem;
+    background-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    background-position: center center;
+    background-color: currentColor;
+    opacity: 0.7;
+}
+.menu-icon-home {
+    mask-image: url("../images/icons/home.svg");
+    -webkit-mask-image: url("../images/icons/home.svg");
+}
+.menu-icon-user {
+    mask-image: url("../images/icons/user-tie-solid.svg");
+    -webkit-mask-image: url("../images/icons/user-tie-solid.svg");
+}
+.menu-icon-products {
+    mask-image: url("../images/icons/products.svg");
+    -webkit-mask-image: url("../images/icons/products.svg");
+}

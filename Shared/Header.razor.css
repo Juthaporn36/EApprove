@@ -1,0 +1,100 @@
+﻿.navbar.header-navbar {
+    flex-grow: 0;
+    flex-wrap: nowrap;
+    border: none;
+    background-color: #fff;
+    border-radius: 0;
+    height: auto;
+ 
+    box-shadow: 0px 2px 6px 0px  rgba(58, 115, 202, 0.166);
+    justify-content: flex-start;
+    padding: .25rem 1rem;
+}
+.shadows{
+    box-shadow: 0px 2px 8px 0px rgba(58, 115, 202, 0.166);
+}
+.header-navbar .navbar-toggler {
+    outline: none;
+    border-radius: 0;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    box-shadow: none;
+    align-self: stretch;
+   
+}
+
+.header-navbar .navbar-toggler .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,255,255, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+    background-color: transparent !important;
+    height: 1.5rem;
+    width: 1.5rem;
+    
+}
+.navbar .top-row .header-navbar{
+    padding: 1rem 1rem;
+}
+.title {
+    font-size: 1rem !important;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+@media (max-width: 350px) {
+    .title {
+        font-size: inherit;
+    }
+}
+
+.usermenu {
+    position: absolute;
+    right: 0px;
+    padding: 10px;
+}
+
+.menu-icon {
+    width: 1rem;
+    height: 1rem;
+    min-width: 1rem;
+    min-height: 1rem;
+    background-size: contain;
+    mask-repeat: no-repeat;
+    -webkit-mask-repeat: no-repeat;
+    background-position: center center;
+    background-color: currentColor;
+    opacity: 0.7;
+}
+.menu-icon-home {
+    mask-image: url("../images/icons/home.svg");
+    -webkit-mask-image: url("../images/icons/home.svg");
+}
+.menu-icon-user {
+    mask-image: url("../images/icons/user-tie-solid.svg");
+    -webkit-mask-image: url("../images/icons/user-tie-solid.svg");
+}
+.menu-icon-products {
+    mask-image: url("../images/icons/products.svg");
+    -webkit-mask-image: url("../images/icons/products.svg");
+}
+.HeaderMenu{
+        font-family: 'Montserrat';
+        font-style: Medium;
+        font-size: 18px;
+        letter-spacing: 1.6%;
+        font-weight:450;
+        line-height:1.1;
+        
+}
+.datenow{
+   
+    font-family: 'Poppins';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 0.6rem;
+     
+    align-items: center;
+    letter-spacing: 0.02em;
+    color: #707EAE;
+     
+ 
+ 
+}

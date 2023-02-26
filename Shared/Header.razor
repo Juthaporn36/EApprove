@@ -1,0 +1,70 @@
+﻿@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
+@inject IConfiguration config
+<nav class="navbar header-navbar pl-0  ">
+    <button class="navbar-toggler d-block d-flex justify-content-start d-flex align-items-center navbar-brand btn-link   pr-0" @onclick="OnToggleClick" style=" max-width: 16rem; min-width: 16rem;">
+          <div class="px-2 py-2 bg-primary" style="width:35px; border-radius:5px;  ">
+                <i class="fa-solid fa-stamp text-dark" style="margin-left:0.1rem;"></i>
+            </div> <span style="font-weight:600"> &nbsp;&nbsp;&nbsp;E-ARRPOVE </span> 
+    </button>
+    <div class="p-0 mt-2 px-2">
+        <h6 class="HeaderMenu">
+            <span class=" ">Welcome</span><br/>
+            <span class="datenow">@{ @System.DateTime.Today.ToString("dddd., MMM dd yyyy, hh:MM tt"); }</span>
+        </h6>
+       
+    </div>
+ 
+    <div class="usermenu d-flex justify-content-end align-items-center">
+    <AuthorizeView>
+        <Authorized>
+            
+            @{string? user = context.User.Identity?.Name;}
+            <div class="HeaderMenu d-flex justify-content-end align-items-center mr-2" style="cursor: pointer;">
+               
+                <div class="text-right mr-2 "> @user <br/>
+                    <span class="datenow">@context.User.Claims.First(c=>c.Type=="role")?.Value</span>
+                </div>  
+                    
+                <i class="fa-solid fa-circle-user fa-2x text-success"></i>
+            </div>
+            @* <DxMenu CssClass="title" Title="@context.User.Claims.First(c=>c.Type=="role")?.Value" ItemsPosition="ItemPosition.End" CollapseItemsToHamburgerMenu="false" Target="_blank">
+            <Items>
+                <DxMenuItem Text="@(user)" IconCssClass="menu-icon-user menu-icon" >
+                    <Items>
+                        <DxMenuItem Text="Profile" NavigateUrl=@(config["AppAuthen:ProfileUrl"]) />
+                        <DxMenuItem Text="Permission" NavigateUrl="@(config["AppAuthen:PermissionUrl"])" />
+                        <DxMenuItem Text="Change Password" NavigateUrl="@(config["AppAuthen:ChgPwdUrl"])" />
+                        <DxMenuItem Text="Logout" Click="Logout" />
+                    </Items>
+                </DxMenuItem>
+            </Items>
+            </DxMenu>             *@
+        </Authorized>
+        <NotAuthorized>
+            @* <a href="/login">Login</a> *@
+        </NotAuthorized>
+    </AuthorizeView>
+    </div>
+</nav>
+
+@code {
+    [Parameter] public bool ToggleOn { get; set; }
+    [Parameter] public EventCallback<bool> ToggleOnChanged { get; set; }
+    async Task OnToggleClick() => await Toggle();
+
+    async Task Toggle(bool? value = null) {
+        var newValue = value ?? !ToggleOn;
+        if(ToggleOn != newValue) {
+            ToggleOn = newValue;
+            await ToggleOnChanged.InvokeAsync(ToggleOn);
+        }
+    }
+    private void Logout()
+    {
+        var customAuthStateProvider = (CustomStateProvider)authStateProvider;
+        customAuthStateProvider.Logout();
+        navManager.NavigateTo("/", true);
+    }
+
+}

@@ -1,0 +1,115 @@
+@page "/Require"
+@attribute [Authorize]
+@using EApprove.Data
+ @using DevExpress.Data.Filtering;
+
+<h2>Required Approve</h2>
+<Comp_search />
+@* <button class="btn btn-sm btn-dark mx-2 px-2 my-2 py-2">Add Document</button>
+<button class="btn btn-sm btn-success   px-2 my-2 py-2">Work Flows</button> *@
+<div class="bs-component my-2">
+    <div class="card shadows py-0">
+        <div class="card-body d-flex justify-content-start px-4 py-4 ">
+    
+    <DxGrid 
+            Data="@Requireds" 
+              ShowFilterRow="true"
+        CustomizeCellDisplayText="Grid_CustomizeCellDisplayText"
+        CustomizeElement="Grid_CustomizeElement"
+        EditorRenderMode="GridEditorRenderMode.Integrated">
+                <Columns>
+                  <DxGridDataColumn FieldName="col6" Width="10%" MinWidth="50"  FilterRowEditorVisible="false" TextAlignment="GridTextAlignment.Center" caption=" " >
+                    <CellDisplayTemplate>
+                        @if((bool)context.Value) {  
+                            @* <a class="text-success "><i class="fa-regular fa-pen-to-square" style="font-size:1.2rem;"></i></a> *@
+                      
+                              <a class="text-success "><i class="fa-solid fa-signature" style="font-size:1.2rem;"></i></a>
+                             @* <a class="text-success "><i class="fa-solid fa-stamp" style="font-size:1.2rem;"></i></a> *@
+                            <a class="text-danger mx-2"><i class="fa-regular fa-trash-can"  style="font-size:1.2rem;"></i></a>
+                           
+                        }
+                        
+                       
+                    </CellDisplayTemplate>
+                </DxGridDataColumn>
+                    <DxGridDataColumn FieldName="col1" FilterRowOperatorType="GridFilterRowOperatorType.Contains"  SortOrder="GridColumnSortOrder.Ascending" caption="Document Name"/>
+                    <DxGridDataColumn FieldName="col2" FilterRowOperatorType="GridFilterRowOperatorType.Contains"  SortOrder="GridColumnSortOrder.Ascending" caption="Document Details"/>
+                    <DxGridDataColumn FieldName="col3" FilterRowOperatorType="GridFilterRowOperatorType.Contains"  SortOrder="GridColumnSortOrder.Ascending" caption="Total Files"/>
+                   <DxGridDataColumn FieldName="col4" FilterRowOperatorType="GridFilterRowOperatorType.Contains"  SortOrder="GridColumnSortOrder.Ascending" caption="WorkFlow">
+                        <CellDisplayTemplate>
+                              <i class="fa-regular fa-file"  ></i> <span>@context.Value</span>
+                               <a class="text-info mx-2"><i class="fa-regular fa-circle-down"  style="font-size:1.2rem;"></i></a> 
+                        </CellDisplayTemplate>
+                    </DxGridDataColumn>
+                    
+
+                    <DxGridDataColumn FieldName="col5"  FilterRowOperatorType="GridFilterRowOperatorType.Contains"  SortOrder="GridColumnSortOrder.Ascending" caption="Created date"/>
+                    <DxGridDataColumn FieldName="col6" caption="Status"  UnboundType="GridUnboundColumnType.Boolean"
+                            UnboundExpression="[ShippedDate] <> Null"
+                            FilterRowEditorVisible="false">
+                        <CellDisplayTemplate>
+                            <DxCheckBox CssClass="d-inline-block" Enabled="true" Checked="(bool)context.Value" />
+                           
+                        </CellDisplayTemplate>
+                    </DxGridDataColumn>
+                </Columns>
+                
+            </DxGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+     
+    public List<Required> Requireds = new List<Required>();
+   
+    public int icc = 0;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        icc = 0;
+        for (int x = 0; x <= 10; x++)
+        {
+            Requireds.Add(  new Required{
+                    ID = x,
+                    col1 = "Test",
+                    col2 ="Test",
+                    col3 = (x + 10),
+                    col4 = "Test",
+                    col5 =  DateTime.Today.Date.AddDays(x),
+                    col6 = true
+            });
+        }
+    }
+
+
+    static readonly IReadOnlyList<PriceFilterInterval> UnitPriceIntervals = new PriceFilterInterval[] {
+        new("[UnitPrice] < 10", "< $10"),
+        new("[UnitPrice] between (10, 100)", "$10 to $100"),
+        new("[UnitPrice] > 100", "> $100")
+    };
+    static readonly IReadOnlyList<ShippedState> ShippedStates = new ShippedState[] {
+        new(true, "Yes"),
+        new(false, "No")
+    };
+    IReadOnlyDictionary<string, string> CustomersIndex { get; set; }
+    void Grid_CustomizeCellDisplayText(GridCustomizeCellDisplayTextEventArgs e) {
+        if (e.FieldName == "CustomerId") {
+            var customerId = (string)e.Value;
+            if (customerId != null && CustomersIndex.TryGetValue(customerId, out var displayText))
+                e.DisplayText = displayText;
+        }
+    }
+    void Grid_CustomizeElement(GridCustomizeElementEventArgs e) {
+        if(e.ElementType == GridElementType.DataCell && ((IGridDataColumn)e.Column).FieldName == "Shipped") {
+            e.CssClass = "p-0";
+        }
+    }
+    record PriceFilterInterval(CriteriaOperator Criteria, string DisplayText) {
+        public PriceFilterInterval(string CriteriaText, string DisplayText)
+            : this(CriteriaOperator.Parse(CriteriaText), DisplayText) {
+        }
+    }
+    record ShippedState(bool? Value, string DisplayText);
+    record CustomerInfo(string CustomerId, string DisplayText);
+}

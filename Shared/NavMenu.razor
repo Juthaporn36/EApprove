@@ -1,0 +1,75 @@
+﻿<div class="sidebar @StateCssClass nav-scrollable bg-white">
+@* <DxTreeView AllowSelectNodes="true" CssClass="app-sidebar">
+    <Nodes>
+    
+        <DxTreeViewNode class="nav-link" NavigateUrl="./" Text="Overview" > </DxTreeViewNode>
+        <DxTreeViewNode NavigateUrl="grid" Text="Grid"></DxTreeViewNode>
+    </Nodes>
+</DxTreeView> *@
+<div class="nav-scrollable bg-white">
+    <nav class="flex-column ">
+        <div class="nav-item px-3 ">
+            <NavLink class="nav-link" href="Require" Match="NavLinkMatch.All">
+                <i class="oi fa-solid fa-suitcase" aria-hidden="true"></i> Required Approve Task
+            </NavLink> 
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Mytask"> 
+                <span class="oi fa-solid fa-paste" aria-hidden="true"></span> My Task
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Setting">
+                <span class="oi fa-solid fa-gears" aria-hidden="true"></span> Setting
+            </NavLink>
+        </div>
+    </nav>
+</div>
+</div>  
+ 
+
+@* <div class="top-row ps-2 navbar bg-white @StateCssClass" >
+    <div class="container-fluid text-white">
+        <a class="d-flex justify-content-start d-flex align-items-center navbar-brand btn-link" href="">
+            <div class="px-2 py-1 bg-primary" style="width:35px; border-radius:5px;  ">
+                <i class="fa-solid fa-stamp text-dark" style="margin-left:0.1rem;"></i>
+            </div>&nbsp;&nbsp;&nbsp;E-ARRPOVE
+        </a>
+        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+            <span class="navbar-toggler-icon"><i class="fa-solid fa-bars"></i></span>
+        </button>
+    </div>
+</div>
+
+<div class="@NavMenuCssClass nav-scrollable bg-white" @onclick="ToggleNavMenu">
+    <nav class="flex-column">
+        <div class="mx-3 mb-4"><hr class="m-0 p-0 " style="margin: 0px;"/></div>
+        <div class="nav-item px-3 ">
+            <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                <i class="oi fa-solid fa-suitcase" aria-hidden="true"></i> Required Approve
+            </NavLink> 
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="counter"> 
+                <span class="oi fa-solid fa-paste" aria-hidden="true"></span> My Task
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="fetchdata">
+                <span class="oi fa-solid fa-gears" aria-hidden="true"></span> Setting
+            </NavLink>
+        </div>
+    </nav>
+</div> *@
+
+@code {
+    [Parameter] public string? StateCssClass { get; set; }
+    @* private bool collapseNavMenu = true;
+
+    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    } *@
+}
